@@ -108,11 +108,11 @@ camera:
     password: !secret ipcam_password
     
 # Teste TV Samsung
-#media_player:
-#  - platform: samsungtv
-#    host: 192.168.0.21
-#    port: 8001
-#    name: TV Salvador
+media_player:
+  - platform: samsungtv
+    host: 192.168.0.21
+    port: 8001
+    name: TV Salvador
     
 # Camera Android Testada no Celular de Vitor. Funcionando!
 #    camera:
