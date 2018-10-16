@@ -1,0 +1,129 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Horus Automation
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: !secret time_zone
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+# introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+ http:
+   base_url: !secret url_dns
+   password: !secret http_password
+   ssl_certificate: /ssl/fullchain.pem
+   ssl_key: /ssl/privkey.pem
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+# Configuração do Configurator
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: http://hassio.local:3218
+  terminal:
+    title: Terminal
+    icon: mdi:console
+    url: https://hassio.local:7681
+
+# Configuracao para o App IOS
+ios:
+
+# Sensor simulado com valores de saída aleatórios para testes de conceitos
+sensor 2:
+  - platform: random
+    name: Sensor Simulado
+    
+automation 2:
+  - alias: Checa o valor do sensor e mostra notificação
+    initial_state: True
+    hide_entity: True
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.random_sensor
+      above: 10
+    action:
+      service: persistent_notification.create
+      data:
+        message: "Valor do sensor maior que 10"
+
+# Camera IP de Testes. Funcionando!
+camera:
+  - platform: generic
+    still_image_url: http://192.168.0.26:80/snapshot.cgi
+    framerate: 30
+    name: IPCam
+    username: !secret ipcam_username
+    password: !secret ipcam_password
+    
+# Teste TV Samsung
+#media_player:
+#  - platform: samsungtv
+#    host: 192.168.0.21
+#    port: 8001
+#    name: TV Salvador
+    
+# Camera Android Testada no Celular de Vitor. Funcionando!
+#    camera:
+#  - platform: mjpeg
+#    mjpeg_url: http://192.168.0.15:8080/video
+#    name: Android
+
+#Teste UPnP
+#upnp:
+#    port_mapping: True
+#    local_ip: 192.168.0.29
+#    ports:
+#      hass: 8123
+#      8080: 8080
